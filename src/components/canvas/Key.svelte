@@ -9,20 +9,22 @@
 	let audioCtrl;
 
     const play = ()=>{
-        audioCtrl.volume = getIntervalNumber(1,9)/10;
-        audioCtrl.currentTime = 0.05;
+        audioCtrl.volume = getIntervalNumber(1,5)/10;
+        audioCtrl.currentTime = 0.2;
         audioCtrl.play()
     }
 
     const pause  = ()=>{
-        if(audioCtrl.currentTime > 0.6){
+        if(audioCtrl.currentTime > 1){
+            audioCtrl.volume = 0;
+            audioCtrl.currentTime = 0.2;
             audioCtrl.pause()
-            audioCtrl.currentTime = 0.05;
         }
     }
 
 
 	$: {
+
         if(canPlay){
            // active? fadeIn(): fadeOut();
            active? play(): pause();
