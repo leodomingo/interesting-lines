@@ -29,9 +29,6 @@ export const getIntervalNumber = (min,max)=>{
 export const getRandomVector = (width)=>{
 
     let intensity = [-0.3,0,0.3]
-	if(width < 600){
-		intensity = [-0.1,0,0.1]
-	}
     let xval = getIntervalNumber(0,2);
     let yval =getIntervalNumber(0,2);
 

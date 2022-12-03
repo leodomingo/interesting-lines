@@ -9,7 +9,7 @@
 	let audioCtrl;
 
     const play = ()=>{
-        audioCtrl.volume = getIntervalNumber(1,5)/10;
+        audioCtrl.volume = getIntervalNumber(6,10)/10;
         audioCtrl.currentTime = 0.2;
         audioCtrl.play()
     }
