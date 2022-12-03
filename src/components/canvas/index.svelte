@@ -169,7 +169,7 @@
 		// fit the render viewport to the scene
 		Render.lookAt(render, {
 			min: { x: 0, y: 0 },
-			max: { x: 800, y: 600 }
+			max: { x: innerWidth < 800 ? innerWidth : 800, y: innerHeight < 600 ? innerHeight : 600, }
 		});
 
 		// context for MatterTools.Demo
