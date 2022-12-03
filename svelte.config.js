@@ -1,21 +1,21 @@
-import adapter from '@sveltejs/adapter-static';
-
-/** @type {import('@sveltejs/kit').Config} */
-const config =  {
+import vercel from '@sveltejs/adapter-vercel';
+export default {
 	kit: {
-	  adapter: adapter({
-		// default options are shown. On some platforms
-		// these options are set automatically — see below
-		pages: 'build',
-		assets: 'build',
-		fallback: null,
-		precompress: false,
-		strict: true
+	  // default options are shown
+	  adapter: vercel({
+		// if true, will deploy the app using edge functions
+		// (https://vercel.com/docs/concepts/functions/edge-functions)
+		// rather than serverless functions
+		edge: false,
+  
+		// an array of dependencies that esbuild should treat
+		// as external when bundling functions
+		external: [],
+  
+		// if true, will split your app into multiple functions
+		// instead of creating a single one for the entire app
+		split: false
 	  })
 	}
   };
-
-export default config;
-
-
 
