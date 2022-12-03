@@ -111,8 +111,8 @@
 			frictionStatic: 0,
 			density: 2,
 			render: {
-				fillStyle: 'white',
-				strokeStyle: 'white',
+				fillStyle: 'transparent',
+				strokeStyle: 'transparent',
 				lineWidth: 4
 			},
 			collisionFilter: {
@@ -126,11 +126,11 @@
 				...frictionOptions,
 				...{ label: 'C1' }
 			}),
-			Bodies.rectangle(innerWidth / 2, innerHeight - 25, innerWidth, 50, {
+			Bodies.rectangle(innerWidth / 2, innerHeight , innerWidth, 50, {
 				...frictionOptions,
 				...{ label: 'C1' }
 			}),
-			Bodies.rectangle(innerWidth - 25, innerHeight / 2, 50, innerHeight, {
+			Bodies.rectangle(innerWidth , innerHeight / 2, 50, innerHeight, {
 				...frictionOptions,
 				...{ label: 'C1' }
 			}),
@@ -142,9 +142,9 @@
 
 		let i = 0;
 		while (i < lineAmount) {
-			let randomWidth = getIntervalNumber(innerWidth / 5, innerWidth / 2);
+			let randomWidth = getIntervalNumber(innerWidth / 4, innerWidth / 2);
 			let lineWidth = randomWidth < 450 ? randomWidth : 450;
-			let latestLine = addLine(world, lineWidth, i, innerWidth, innerHeight);
+			let latestLine = addLine(world, i, innerWidth, innerHeight);
 			lines = [...lines, latestLine];
 			i++;
 		}
@@ -220,7 +220,7 @@
 			if (i % (ghostIndex + 1) == 0) {
 				//line.render.fillStyle = 'red';
 				Body.set(line, 'isSensor', true);
-				let pushVector = getRandomVector();
+				let pushVector = getRandomVector(innerWidth);
 				Body.applyForce(line, { x: 0, y: 0 }, pushVector);
 			} else {
 				line.render.fillStyle = 'black';
@@ -268,6 +268,7 @@
 	.allow-audio.hidden {
 		opacity: 0;
 		pointer-events: none;
+		z-index: -1;
 	}
 	.allow-audio > div {
 		padding: 15px;

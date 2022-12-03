@@ -9,7 +9,7 @@
 
 <div class="piano-container">
 	{#each notes as note, i}
-		<Key note={i} active={collisions.includes(note)} {canPlay} />
+		<Key note={i} active={collisions.includes(note)} {canPlay} volumeCap={1/(collisions.length)} />
 	{/each}
 </div>
 

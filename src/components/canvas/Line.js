@@ -17,41 +17,41 @@ const Engine = Matter.Engine,
 	Bodies = Matter.Bodies,
 	Body = Matter.Body;
 
+//  const lineWidth = 400
 
-  //  const lineWidth = 400
+let lineWidth = Math.floor(Math.random() * 201 + 200);
 
-  let lineWidth = Math.floor(Math.random() * 201 + 200);
+export const getIntervalNumber = (min, max) => {
+	return Math.floor(Math.random() * (max - min + 1) + min);
+};
 
-export const getIntervalNumber = (min,max)=>{
-    return Math.floor(Math.random() * (max-min + 1) +  min )
-}
+export const getRandomVector = (width) => {
+	let intensity = [-0.3, 0, 0.3];
+	if(width < 500){
+	 intensity = [-0.1, 0, 0.1];
+	}
+	let xval = getIntervalNumber(0, 2);
+	let yval = getIntervalNumber(0, 2);
 
-export const getRandomVector = (width)=>{
-
-    let intensity = [-0.3,0,0.3]
-    let xval = getIntervalNumber(0,2);
-    let yval =getIntervalNumber(0,2);
-
-    return {
-        x: intensity[xval],
-        y: intensity[yval]
-    }
-}
-export const notes = ["C1",'D','E','F','G','A','B','C2']
-
+	return {
+		x: intensity[xval],
+		y: intensity[yval]
+	};
+};
+export const notes = ['C1', 'D', 'E', 'F', 'G', 'A', 'B', 'C2'];
 
 const ballOptions = {
 	restitution: 1,
 	friction: 0,
 	frictionAir: 0,
 	frictionStatic: 0,
-    density: 1,
+	density: 1,
 
-    render:{
-        fillStyle: 'white',
-        strokeStyle:'black',
-        lineWidth: 1,
-    },
+	render: {
+		fillStyle: 'white',
+		strokeStyle: 'black',
+		lineWidth: 1
+	},
 	collisionFilter: {
 		category: ballCategory,
 		mask: ballCategory | groundCollisionCat
@@ -62,39 +62,45 @@ const rectOptions = {
 	friction: 0,
 	frictionAir: 0,
 	frictionStatic: 0,
-    density: 0.7,
+	density: 0.7,
 
 	// angle: 0.6,
 	render: { fillStyle: 'black' }
 };
 
-export const addLine = (world, lineWidth, index, width, height) => {
+export const addLine = (world, index, width, height) => {
+	const radius = width < 500 ? 3 : 5;
+	let randomWidth =
+		width < 500
+			? getIntervalNumber(innerWidth / 3, (innerWidth /2) )
+			: getIntervalNumber(innerWidth / 4, innerWidth / 2);
+	let lineWidth = randomWidth < 450 ? randomWidth : 450;
 
-	const spawnPositionX = getIntervalNumber(width/4, (width/4 * 3))
-	const spawnPositionY = getIntervalNumber(height/4, (height/4 * 3))
+	const spawnPositionX = getIntervalNumber(width / 5, (width / 5) * 4);
+	const spawnPositionY = getIntervalNumber(height / 4, (height / 4) * 3);
 
-	let pointA = Bodies.polygon(spawnPositionX - (lineWidth/2),spawnPositionY, 50, 5, {
+	let pointA = Bodies.polygon(spawnPositionX - lineWidth / 2, spawnPositionY, 50, radius, {
 		...ballOptions,
-		...{label: notes[index]}
+		...{ label: notes[index] }
 	});
-	let pointB = Bodies.polygon(spawnPositionX + (lineWidth/2),spawnPositionY, 50, 5, {
+	let pointB = Bodies.polygon(spawnPositionX + lineWidth / 2, spawnPositionY, 50, radius, {
 		...ballOptions,
-		...{label: notes[index]}
+		...{ label: notes[index] }
 	});
 
 	let line = Bodies.rectangle(spawnPositionX, spawnPositionY, lineWidth, 1, {
 		...rectOptions,
-		...{label: notes[index]}
+		...{ label: notes[index] }
 	});
 
-    Composite.add(world, [pointA,pointB,line])
+	Composite.add(world, [pointA, pointB, line]);
 
 	let boundA = Constraint.create({
 		bodyA: pointA,
 		bodyB: line,
 		length: 0,
 		// pointA: 0,
-		pointB: { x: -(lineWidth/2 + 5), y: 0 },
+		pointB: { x: -(lineWidth / 2 + radius), y: 0 },
 		render: {
 			strokeStyle: 'transparent',
 			lineWidth: 1,
@@ -106,7 +112,7 @@ export const addLine = (world, lineWidth, index, width, height) => {
 		bodyB: line,
 		length: 0,
 		// pointA: 0,
-		pointB: { x: (lineWidth/2 + 5), y: 0 },
+		pointB: { x: lineWidth / 2 + radius, y: 0 },
 		render: {
 			strokeStyle: 'transparent',
 			lineWidth: 1,
@@ -115,5 +121,5 @@ export const addLine = (world, lineWidth, index, width, height) => {
 	});
 
 	Composite.add(world, [boundA, boundB]);
-    return line;
+	return line;
 };
