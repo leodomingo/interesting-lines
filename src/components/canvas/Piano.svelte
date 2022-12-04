@@ -7,7 +7,7 @@
 	export let collisions = [];
 	export let canPlay;
 
-	const notes = ['C1', 'D', 'E', 'F', 'G', 'A', 'B', 'C2'];
+	const notes = ['C1', 'D', 'E', 'F', 'G', 'A', 'B', 'C2', 'C3'];
 	let activeKeys = [];
 
 	$: {
@@ -19,6 +19,7 @@
 				.flat()
 		);
 	}
+    $:console.log(activeKeys)
 </script>
 
 <div class="piano-container">

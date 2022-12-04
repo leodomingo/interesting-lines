@@ -5,13 +5,12 @@
 	import Matter from 'matter-js';
 	import Piano from './Piano.svelte';
 
-	import { onMount, onDestroy } from 'svelte';
-	import { addLine, getRandomVector, getIntervalNumber, notes } from './Line';
+	import { onMount } from 'svelte';
+	import { addLine, getRandomVector } from './Line';
 	import uniq from 'lodash/uniq';
 	let canvas;
 
 	const lineAmountMax = 9;
-	let lineAmount = 0;
 
 	let lines = [];
 	let collisions = [];
@@ -25,12 +24,10 @@
 	const Engine = Matter.Engine,
 		Render = Matter.Render,
 		Runner = Matter.Runner,
-		Composites = Matter.Composites,
 		Events = Matter.Events,
 		MouseConstraint = Matter.MouseConstraint,
 		Mouse = Matter.Mouse,
 		Composite = Matter.Composite,
-		Constraint = Matter.Constraint,
 		Bodies = Matter.Bodies,
 		Body = Matter.Body;
 
@@ -54,21 +51,7 @@
 		});
 
 		collisions = [...collisions, ...eventCollisions.flat()]
-		// var pairs = event.pairs;
-		// let nestedCollisions = [];
-		// if (pairs.length > 0) {
-		// 	pairs.forEach((pair) => {
-		// 		let labels = [pair.bodyA.label, pair.bodyB.label];
 
-		// 		if (labels.includes('WALL')) {
-		// 			let w_index = labels.indexOf('WALL');
-		// 			let note_index = getIntervalNumber(0, 7);
-		// 			labels[w_index] = notes[note_index];
-		// 		}
-		// 		nestedCollisions.push(labels);
-		// 	});
-		// }
-		// collisions = [...collisions,...nestedCollisions.flat()]
 	};
 
 	const handleCollisionEnd = (event)=>{
@@ -92,21 +75,6 @@
 		})
 		collisions =  updatedCollisions.flat();
 
-
-		// var pairs = event.pairs;
-		// let nestedCollisions = [];
-		// if (pairs.length > 0) {
-		// 	pairs.forEach((pair) => {
-		// 		let labels = [pair.bodyA.label, pair.bodyB.label];
-
-		// 		if (labels.includes('WALL')) {
-		// 			let w_index = labels.indexOf('WALL');
-		// 			let note_index = getIntervalNumber(0, 7);
-		// 			labels[w_index] = notes[note_index];
-		// 		}
-
-		// 	});
-		// }
 	}
 
 
@@ -200,11 +168,6 @@
 		lines = [...lines, firstLine];
 
 
-		// while (i < lineAmount) {
-		// 	let latestLine = addLine(world, i, innerWidth, innerHeight);
-		// 	lines = [...lines, latestLine];
-		// 	i++;
-		// }
 
 		// add mouse control
 		let mouse = Mouse.create(render.canvas),
