@@ -133,7 +133,7 @@
 			density: 2,
 			render: {
 				fillStyle: 'transparent',
-				strokeStyle: 'black',
+				strokeStyle: 'transparent',
 				lineWidth: 4
 			},
 
