@@ -6,11 +6,13 @@
 	import Piano from './Piano.svelte';
 
 	import { onMount, onDestroy } from 'svelte';
-	import { addLine, getRandomVector, getIntervalNumber } from './Line';
+	import { addLine, getRandomVector, getIntervalNumber, notes } from './Line';
 	import uniq from 'lodash/uniq';
 	let canvas;
 
-	const lineAmount = 8;
+	const lineAmountMax = 9;
+	let lineAmount = 0;
+
 	let lines = [];
 	let collisions = [];
 	let ghostIndex = 0;
@@ -34,25 +36,79 @@
 
 	Matter.Resolver._restingThresh = 0.1; // default is 4
 
-	const handleCollision = (event) => {
-		var pairs = event.pairs;
-		let nestedCollisions = [];
-		if (pairs.length > 0) {
-			pairs.forEach((pair) => {
-				let labels = [pair.bodyA.label, pair.bodyB.label];
-				nestedCollisions.push(labels);
+	const handleCollisionStart = (event) => {
 
-				// if (!labels.includes('wall')) {
-				// 	collisions = labels;
-				// }
-			});
-		}
-		collisions = uniq(nestedCollisions.flat());
+		let eventCollisions = event.pairs.map((pair)=>{
+			let a_label = pair.bodyA.label;
+			let b_label = pair.bodyB.label;
+			let labels = uniq([a_label,b_label])
+
+			return {
+				id: pair.id,
+				labels: labels
+			}
+		})
+
+		eventCollisions = eventCollisions.filter((collision)=>{
+			return collision.labels.length != 1 // && !collision.labels.includes('WALL')
+		});
+
+		collisions = [...collisions, ...eventCollisions.flat()]
+		// var pairs = event.pairs;
+		// let nestedCollisions = [];
+		// if (pairs.length > 0) {
+		// 	pairs.forEach((pair) => {
+		// 		let labels = [pair.bodyA.label, pair.bodyB.label];
+
+		// 		if (labels.includes('WALL')) {
+		// 			let w_index = labels.indexOf('WALL');
+		// 			let note_index = getIntervalNumber(0, 7);
+		// 			labels[w_index] = notes[note_index];
+		// 		}
+		// 		nestedCollisions.push(labels);
+		// 	});
+		// }
+		// collisions = [...collisions,...nestedCollisions.flat()]
 	};
 
-	const groundCollisionCat = 0x0001,
-		rectCategory = 0x0002, // red circles
-		ballCategory = 0x0004; // yellow circles
+	const handleCollisionEnd = (event)=>{
+		let eventCollisions = event.pairs.map((pair)=>{
+			let a_label = pair.bodyA.label;
+			let b_label = pair.bodyB.label;
+			let labels = uniq([a_label,b_label])
+
+			return {
+				id: pair.id,
+				labels: labels
+			}
+		})
+
+		let removeIds = eventCollisions.map((collision)=>{
+			return collision.id
+		})
+
+		let updatedCollisions = collisions.filter((collision)=>{
+			return !removeIds.includes(collision.id);
+		})
+		collisions =  updatedCollisions.flat();
+
+
+		// var pairs = event.pairs;
+		// let nestedCollisions = [];
+		// if (pairs.length > 0) {
+		// 	pairs.forEach((pair) => {
+		// 		let labels = [pair.bodyA.label, pair.bodyB.label];
+
+		// 		if (labels.includes('WALL')) {
+		// 			let w_index = labels.indexOf('WALL');
+		// 			let note_index = getIntervalNumber(0, 7);
+		// 			labels[w_index] = notes[note_index];
+		// 		}
+
+		// 	});
+		// }
+	}
+
 
 	let engine = Engine.create(),
 		world = engine.world;
@@ -60,13 +116,10 @@
 	// create renderer
 	let render;
 
-	let walls = [];
 
-	Events.on(engine, 'collisionActive', handleCollision);
+	Events.on(engine, 'collisionStart', handleCollisionStart);
+	Events.on(engine, 'collisionEnd', handleCollisionEnd)
 
-	// Events.on(engine, 'collisionStart', event =>{
-	// 	console.log(event)
-	// })
 
 	const runBounce = () => {
 		render = Render.create({
@@ -112,42 +165,46 @@
 			density: 2,
 			render: {
 				fillStyle: 'transparent',
-				strokeStyle: 'transparent',
+				strokeStyle: 'black',
 				lineWidth: 4
 			},
-			collisionFilter: {
-				category: groundCollisionCat
-			}
+
 		};
 
 		Composite.add(world, [
 			// walls
-			Bodies.rectangle(innerWidth / 2, 0, innerWidth, 50, {
+			Bodies.rectangle(innerWidth / 2, -25, innerWidth, 50, {
 				...frictionOptions,
-				...{ label: 'C1' }
+				...{ label: 'WALL' }
 			}),
-			Bodies.rectangle(innerWidth / 2, innerHeight , innerWidth, 50, {
+			Bodies.rectangle(innerWidth / 2, innerHeight + 25, innerWidth, 50, {
 				...frictionOptions,
-				...{ label: 'C1' }
+				...{ label: 'WALL' }
 			}),
-			Bodies.rectangle(innerWidth , innerHeight / 2, 50, innerHeight, {
+			Bodies.rectangle(innerWidth +25, innerHeight / 2, 50, innerHeight, {
 				...frictionOptions,
-				...{ label: 'C1' }
+				...{ label: 'WALL' }
 			}),
-			Bodies.rectangle(0, innerHeight / 2, 50, innerHeight, {
+			Bodies.rectangle(-25, innerHeight / 2, 50, innerHeight, {
 				...frictionOptions,
-				...{ label: 'C1' }
+				...{ label: 'WALL' }
 			})
 		]);
 
 		let i = 0;
-		while (i < lineAmount) {
-			let randomWidth = getIntervalNumber(innerWidth / 4, innerWidth / 2);
-			let lineWidth = randomWidth < 450 ? randomWidth : 450;
-			let latestLine = addLine(world, i, innerWidth, innerHeight);
-			lines = [...lines, latestLine];
-			i++;
-		}
+
+		// adding that first line
+		let firstLine = addLine(world, 0, innerWidth, innerHeight);
+		let firstPushVector = getRandomVector(innerWidth);
+		Body.applyForce(firstLine, { x: 0, y: 0 }, firstPushVector);
+		lines = [...lines, firstLine];
+
+
+		// while (i < lineAmount) {
+		// 	let latestLine = addLine(world, i, innerWidth, innerHeight);
+		// 	lines = [...lines, latestLine];
+		// 	i++;
+		// }
 
 		// add mouse control
 		let mouse = Mouse.create(render.canvas),
@@ -169,7 +226,7 @@
 		// fit the render viewport to the scene
 		Render.lookAt(render, {
 			min: { x: 0, y: 0 },
-			max: { x: innerWidth < 800 ? innerWidth : 800, y: innerHeight < 600 ? innerHeight : 600, }
+			max: { x: innerWidth < 800 ? innerWidth : 800, y: innerHeight < 600 ? innerHeight : 600 }
 		});
 
 		// context for MatterTools.Demo
@@ -196,10 +253,9 @@
 		showlines = true;
 		return () => {
 			window.removeEventListener('resize', resetCanvas);
-			clearInterval(ghostInterval)
+			clearInterval(ghostInterval);
 		};
 	});
-
 
 	const resetCanvas = () => {
 		if (render) {
@@ -214,11 +270,8 @@
 
 	$: {
 		lines.forEach((line, i) => {
-			let pushVector = getRandomVector(innerWidth);
-			Body.applyForce(line, { x: 0, y: 0 }, pushVector);
 
 			if (i % (ghostIndex + 1) == 0) {
-				//line.render.fillStyle = 'red';
 				Body.set(line, 'isSensor', true);
 				let pushVector = getRandomVector(innerWidth);
 				Body.applyForce(line, { x: 0, y: 0 }, pushVector);
@@ -228,9 +281,27 @@
 			}
 		});
 	}
-	// $:console.log(collisions)
+	$:{
+		if(canPlay && lines.length == 1){
+				const addLineInterval = setInterval(()=>{
+					if(lines.length < lineAmountMax){
+						let newLine = addLine(world, lines.length, innerWidth, innerHeight);
+						lines = [...lines, newLine];
+						let pushVector = getRandomVector(innerWidth);
+						Body.applyForce(newLine, { x: 0, y: 0 }, pushVector);
+					}else{
+						clearInterval(addLineInterval);
+					}
+				}, 2000)
+			
+		}
+	}
+
+
+
 
 	resetCanvas();
+
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
@@ -242,7 +313,7 @@
 		canPlay = true;
 	}}
 >
-	<div>Click anywhere to allow audio</div>
+	<div>Click anywhere to express the silence</div>
 </div>
 <img src="lispector.png" alt="connected lines" />
 <div class="canvas-wrapper" bind:this={canvas} class:visible={showlines} />
@@ -288,8 +359,9 @@
 			line-height: 1.5rem;
 		}
 		.allow-audio > div {
-			max-width: 100%;
-			margin: 0;
+			max-width: calc(100% - 30px);
+			margin-bottom: 50px;
+			margin-left: 0;
 		}
 	}
 	.canvas-wrapper {

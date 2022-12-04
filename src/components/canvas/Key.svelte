@@ -10,23 +10,24 @@
 	let audioCtrl;
 
 	const play = () => {
-		if (audioCtrl.paused) {
-			audioCtrl.play();
-		}
+        audioCtrl.volume = volumeCap;
+        audioCtrl.currentTime = 0.5;
+		// if (audioCtrl.paused) {
+		// 	audioCtrl.play();
+		// }
 	};
 
 	const pause = () => {
-		if (audioCtrl.currentTime > 1) {
+		if (audioCtrl.currentTime > 0) {
 			audioCtrl.volume = 0;
-			audioCtrl.pause();
-            audioCtrl.currentTime = 0.2;
+			// audioCtrl.pause();
+            // audioCtrl.currentTime = 0;
 		}
 	};
 
 	$: {
-		if (canPlay) {
-			// active? fadeIn(): fadeOut();
-			audioCtrl.volume = volumeCap;
+		if (canPlay && active) {
+            audioCtrl.play();
 			active ? play() : pause();
 		}
 	}
@@ -38,3 +39,8 @@
 		Your browser does not support the audio element.
 	</audio>
 </div>
+<style>
+    audio{
+        transition: all ease-in-out 0.3s;
+    }
+</style>

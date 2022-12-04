@@ -38,7 +38,7 @@ export const getRandomVector = (width) => {
 		y: intensity[yval]
 	};
 };
-export const notes = ['C1', 'D', 'E', 'F', 'G', 'A', 'B', 'C2'];
+export const notes = [  'F','C2','C1', 'D', 'G', 'C3', 'E',  'B','A' ];
 
 const ballOptions = {
 	restitution: 1,
@@ -48,8 +48,8 @@ const ballOptions = {
 	density: 1,
 
 	render: {
-		fillStyle: 'white',
-		strokeStyle: 'black',
+		fillStyle: 'transparent',
+		strokeStyle: 'transparent',
 		lineWidth: 1
 	},
 	collisionFilter: {
