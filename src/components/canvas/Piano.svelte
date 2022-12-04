@@ -19,7 +19,6 @@
 				.flat()
 		);
 	}
-    $:console.log(activeKeys)
 </script>
 
 <div class="piano-container">
