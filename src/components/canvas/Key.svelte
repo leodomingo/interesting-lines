@@ -18,7 +18,7 @@
 	};
 
 	const pause = () => {
-		if (audioCtrl.currentTime > 0) {
+		if (audioCtrl.currentTime > 1) {
 			audioCtrl.volume = 0;
 			// audioCtrl.pause();
             // audioCtrl.currentTime = 0;
