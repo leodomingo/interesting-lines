@@ -33,8 +33,11 @@
                 let dec = volume -=0.01
                     dec = limits(dec,0,1)
 					volume = dec;
-            }else{
+            }else if(volume == 0){
+                audioCtrl.pause();
             //    console.log("not doing anything good god")
+            }else{
+                audioCtrl.play();
             }
         },25);
 
