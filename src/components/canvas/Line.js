@@ -27,8 +27,8 @@ export const getIntervalNumber = (min, max) => {
 
 export const getRandomVector = (width) => {
 	let intensity = [-0.3, 0, 0.3];
-	if(width < 500){
-	 intensity = [-0.1, 0, 0.1];
+	if (width < 500) {
+		intensity = [-0.05, 0, 0.05];
 	}
 	let xval = getIntervalNumber(0, 2);
 	let yval = getIntervalNumber(0, 2);
@@ -38,7 +38,7 @@ export const getRandomVector = (width) => {
 		y: intensity[yval]
 	};
 };
-export const notes = [  'F','C2','C1', 'D', 'G', 'C3', 'E',  'B','A' ];
+export const notes = ['F', 'C2', 'C1', 'D', 'G', 'C3', 'E', 'B', 'A'];
 
 const ballOptions = {
 	restitution: 1,
@@ -69,11 +69,12 @@ const rectOptions = {
 };
 
 export const addLine = (world, index, width, height) => {
-	const radius = width < 500 ? 3 : 5;
+	const radius = width < 500 ? 1 : 2;
+	const randomAngle = getIntervalNumber(1,179);
 	let randomWidth =
 		width < 500
-			? getIntervalNumber(innerWidth / 3, (innerWidth /2) )
-			: getIntervalNumber(innerWidth / 4, innerWidth / 2);
+			? getIntervalNumber(innerWidth / 4,( innerWidth*4) / 5)
+			: getIntervalNumber(innerWidth / 4, (innerWidth *3 )/ 4);
 	let lineWidth = randomWidth < 450 ? randomWidth : 450;
 
 	const spawnPositionX = getIntervalNumber(width / 5, (width / 5) * 4);
@@ -92,6 +93,8 @@ export const addLine = (world, index, width, height) => {
 		...rectOptions,
 		...{ label: notes[index] }
 	});
+	Body.setAngle(line, randomAngle );
+
 
 	Composite.add(world, [pointA, pointB, line]);
 
@@ -123,3 +126,29 @@ export const addLine = (world, index, width, height) => {
 	Composite.add(world, [boundA, boundB]);
 	return line;
 };
+
+export const limits = (target, min, max) => {
+	if (target < min) {
+		return min;
+	} else if (target > max) {
+		return max;
+	}
+	return target;
+};
+
+export const isBetween = (target, min, max) => {
+	if (target > min && target < max) {
+		return true;
+	}
+	return false;
+};
+
+export const isNear = (target, number, grace) =>{
+	if(target > number + grace){
+		return -1
+	}else if(target < number - grace ){
+		return 1;
+	}else{
+		return 0;
+	}
+}
