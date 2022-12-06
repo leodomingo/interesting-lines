@@ -34,7 +34,7 @@
 
 <div class="piano-container">
 	{#each notes as note, i}
-		<Key note={i} key={note} bind:volume={volumes[i]} chord={activeKeys} active={activeKeys.includes(note)} {canPlay} volumeCap={volumeCap} />
+		<Key note={i} key={note} bind:volume={volumes[i]}  active={activeKeys.includes(note)} {canPlay} volumeCap={volumeCap} />
 	
         <div class="volume-marker" style="right: {15 * i}px; ">
             <!-- {volume/volumeCap} -->

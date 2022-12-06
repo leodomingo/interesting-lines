@@ -21,11 +21,11 @@
 				if (audioCtrl.paused) {
 					audioCtrl.play();
 				}
-				let inc = (volume += 0.05);
+				let inc = (volume += 0.1);
 				inc = limits(inc, 0, 1);
 				volume = inc;
 			} else if (!active && volume > 0) {
-				let dec = (volume -= 0.05);
+				let dec = (volume -= 0.1);
 				dec = limits(dec, 0, 1);
 				volume = dec;
 			}
