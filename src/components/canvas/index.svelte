@@ -126,19 +126,19 @@
 
 		Composite.add(world, [
 			// walls
-			Bodies.rectangle(innerWidth / 2, -25, innerWidth, 50, {
+			Bodies.rectangle(innerWidth / 2, 0, innerWidth, 50, {
 				...frictionOptions,
 				...{ label: 'WALL' }
 			}),
-			Bodies.rectangle(innerWidth / 2, innerHeight + 25, innerWidth, 50, {
+			Bodies.rectangle(innerWidth / 2, innerHeight , innerWidth, 50, {
 				...frictionOptions,
 				...{ label: 'WALL' }
 			}),
-			Bodies.rectangle(innerWidth + 25, innerHeight / 2, 50, innerHeight, {
+			Bodies.rectangle(innerWidth , innerHeight / 2, 50, innerHeight, {
 				...frictionOptions,
 				...{ label: 'WALL' }
 			}),
-			Bodies.rectangle(-25, innerHeight / 2, 50, innerHeight, {
+			Bodies.rectangle(0, innerHeight / 2, 50, innerHeight, {
 				...frictionOptions,
 				...{ label: 'WALL' }
 			})
