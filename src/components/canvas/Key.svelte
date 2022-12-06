@@ -41,10 +41,7 @@
 	onMount(() => {
 		//   audioCtrl.volume = 0;
 		audioCtrl.addEventListener('timeupdate', resetAudio);
-		if (audioCtrl.paused) {
-			audioCtrl.volume = 0;
-			audioCtrl.play();
-		}
+
 
 		return () => {
 			clearInterval(volumeTicker);
@@ -53,7 +50,11 @@
 	});
 
 	$: {
-		if (canPlay) {
+		if (canPlay && !hasPlayed) {
+            if (audioCtrl.paused) {
+			audioCtrl.volume = 0;
+			audioCtrl.play();
+		}
 			fadeKey();
 			hasPlayed = true;
 		}
