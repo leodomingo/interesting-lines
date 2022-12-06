@@ -48,7 +48,6 @@
         audioCtrl.volume = 0;
         audioCtrl.addEventListener('timeupdate', () => {
             if(audioCtrl.currentTime > 7){
-                console.log("new shit new shit!")
                 audioCtrl.currentTime = 0;
             }
         });
@@ -62,7 +61,6 @@
 
 	$: {
 		if (canPlay && !hasPlayed) {
-            audioCtrl.volume = 0;
 			audioCtrl.play();
             fadeKey();
             hasPlayed = true;
