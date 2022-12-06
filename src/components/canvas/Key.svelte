@@ -62,6 +62,7 @@
 
 	$: {
 		if (canPlay && !hasPlayed) {
+            audioCtrl.volume = 0;
 			audioCtrl.play();
             fadeKey();
             hasPlayed = true;
