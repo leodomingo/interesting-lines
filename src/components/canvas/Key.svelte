@@ -67,7 +67,7 @@
 
 <div>
 	<audio bind:this={audioCtrl} controls={false} preload="all" loop>
-		<source src="{note}.wav" type="audio/mpeg" />
+		<source src="{note}.mp3" type="audio/mpeg" />
 		Your browser does not support the audio element.
 	</audio>
 </div>
