@@ -51,6 +51,7 @@
 	$: {
 		if (canPlay) {
 			fadeKey();
+            audioCtrl.autoplay = true;
 			hasPlayed = true;
 		}
 	}
