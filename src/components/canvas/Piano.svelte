@@ -59,6 +59,8 @@
 		height: 100%;
 		width: 15px;
 		bottom: 0px;
+        background-color: red;
+
 	}
 	.volume-marker > div {
 		width: 100%;

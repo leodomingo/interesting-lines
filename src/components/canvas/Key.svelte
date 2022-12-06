@@ -51,7 +51,6 @@
 	$: {
 		if (canPlay) {
 			fadeKey();
-            audioCtrl.autoplay = true;
 			hasPlayed = true;
 		}
 	}
@@ -68,7 +67,7 @@
 
 <div>
 	<audio bind:this={audioCtrl} controls={false} preload="all" loop>
-		<source src="{note}.mp3" type="audio/mpeg" />
+		<source src="{note}.wav" type="audio/wav" />
 		Your browser does not support the audio element.
 	</audio>
 </div>
