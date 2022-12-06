@@ -37,7 +37,7 @@
 		<Key note={i} key={note} bind:volume={volumes[i]}  active={activeKeys.includes(note)} {canPlay} volumeCap={volumeCap} />
 	
         <div class="volume-marker" style="right: {15 * i}px; ">
-            <!-- {volume/volumeCap} -->
+            {volumes[i]}
             <div style="height:{(volumes[i]) * 100}%" >
             </div>
         </div>
