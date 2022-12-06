@@ -11,14 +11,10 @@
     let hasPlayed = false;
 
 	export let volume;
-
-	let isFadingOut = false;
-	let isFadingIn = false;
     let volumeTicker;
 
 
 
-	let time = 0;
 
 	let audioCtrl;
 
@@ -35,28 +31,29 @@
 					volume = dec;
             }else if(volume == 0){
                 audioCtrl.pause();
-            //    console.log("not doing anything good god")
             }else{
                 audioCtrl.play();
             }
-        },25);
+        },100);
 
     }
 
+    const resetAudio = ()=>{
+        if(audioCtrl.currentTime > 7){
+                audioCtrl.currentTime = 0;
+            }
+    }
 
     onMount(() => {
         audioCtrl.volume = 0;
-        audioCtrl.addEventListener('timeupdate', () => {
-            if(audioCtrl.currentTime > 7){
-                audioCtrl.currentTime = 0;
-            }
-        });
+        audioCtrl.addEventListener('timeupdate',resetAudio);
 
 
     });
 
     onDestroy(()=>{
         clearInterval(volumeTicker);
+        audioCtrl.removeEventListener('timeupdate', resetAudio)
     })
 
 	$: {
