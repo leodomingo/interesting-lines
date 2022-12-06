@@ -22,15 +22,15 @@
     const fadeKey = ()=>{
          volumeTicker =  setInterval(() => {
             if(active && volume < volumeCap){
-                let inc = volume +=0.05
+                let inc = volume +=0.01
                     inc = limits(inc,0,1)
 					volume = inc;
             }else if(!active && volume > 0) {
-                let dec = volume -=0.05
+                let dec = volume -=0.01
                     dec = limits(dec,0,1)
 					volume = dec;
             }
-        },100);
+        },50);
     }
 
     const resetAudio = ()=>{
@@ -40,7 +40,7 @@
     }
 
     onMount(() => {
-        audioCtrl.volume = 0;
+     //   audioCtrl.volume = 0;
         audioCtrl.addEventListener('timeupdate',resetAudio);
 
         return ()=>{
