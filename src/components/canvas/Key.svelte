@@ -18,9 +18,6 @@
 	const fadeKey = () => {
 		volumeTicker = setInterval(() => {
 			if (active && volume < volumeCap) {
-				if (audioCtrl.paused) {
-					audioCtrl.play();
-				}
 				let inc = (volume += 0.1);
 				inc = limits(inc, 0, 1);
 				volume = inc;
@@ -41,6 +38,10 @@
 	onMount(() => {
 		//   audioCtrl.volume = 0;
 		audioCtrl.addEventListener('timeupdate', resetAudio);
+		if (audioCtrl.paused) {
+			audioCtrl.volume = 0;
+			audioCtrl.play();
+		}
 
 		return () => {
 			clearInterval(volumeTicker);
