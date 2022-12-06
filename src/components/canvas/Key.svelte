@@ -26,6 +26,8 @@
 				dec = limits(dec, 0, 1);
 				volume = dec;
 			}
+            audioCtrl.volume = limits(volume, 0, 1);
+
 		}, 50);
 	};
 
@@ -56,14 +58,14 @@
 		}
 	}
 
-	$: {
-		if (audioCtrl) {
-			if (volume == 0) {
-				audioCtrl.currentTime = 0.5;
-			}
-			audioCtrl.volume = limits(volume, 0, 1);
-		}
-	}
+	// $: {
+	// 	if (audioCtrl) {
+	// 		if (volume == 0) {
+	// 			audioCtrl.currentTime = 0.5;
+	// 		}
+	// 		audioCtrl.volume = limits(volume, 0, 1);
+	// 	}
+	// }
 </script>
 
 <div>
