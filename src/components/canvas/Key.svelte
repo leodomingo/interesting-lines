@@ -20,13 +20,16 @@
 
 
     const fadeKey = ()=>{
+        if(audioCtrl.paused){
+            audioCtrl.play();
+        }
          volumeTicker =  setInterval(() => {
             if(active && volume < volumeCap){
-                let inc = volume +=0.01
+                let inc = volume +=0.05
                     inc = limits(inc,0,1)
 					volume = inc;
             }else if(!active && volume > 0) {
-                let dec = volume -=0.01
+                let dec = volume -=0.05
                     dec = limits(dec,0,1)
 					volume = dec;
             }
@@ -52,8 +55,7 @@
 
 
 	$: {
-		if (canPlay && !hasPlayed) {
-			audioCtrl.play();
+		if (canPlay) {
             fadeKey();
             hasPlayed = true;
 		}
