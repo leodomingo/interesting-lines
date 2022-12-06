@@ -56,7 +56,7 @@
 
 	$: {
 		if (canPlay) {
-            fadeKey();
+           // fadeKey();
             hasPlayed = true;
 		}
 	}
