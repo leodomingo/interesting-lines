@@ -9,7 +9,7 @@
 	export let volumeCap;
 
 	let hasPlayed = false;
-
+    let time = 0 ;
 	export let volume;
 	let volumeTicker;
 
@@ -32,6 +32,7 @@
 	};
 
 	const resetAudio = () => {
+        time = audioCtrl.currentTime;
 		if (audioCtrl.currentTime > 7) {
 			audioCtrl.currentTime = 0;
 		}
@@ -69,6 +70,7 @@
 </script>
 
 <div>
+    <div>{time}</div>
 	<audio bind:this={audioCtrl} controls={false} preload="auto" loop>
 		<source src="{note}.wav" type="audio/wav" />
 		Your browser does not support the audio element.
