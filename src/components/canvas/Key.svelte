@@ -8,6 +8,7 @@
 	export let canPlay;
 	export let volumeCap;
 
+
 	let hasPlayed = false;
 	let time = 0;
 	export let volume;
@@ -47,7 +48,7 @@
 					audioCtrl.pause();
 				}
 			}
-		},200);
+		},tickInterval);
 	};
 	const resetAudio = () => {
 		if (audioCtrl.currentTime > 7.5) {
@@ -61,6 +62,7 @@
 		//   audioCtrl.volume = 0;
 		audioCtrl.addEventListener('timeupdate', resetAudio);
 		isMobile = checkIsMobile();
+
 		if (isMobile) {
 			audioCtrl.volume = 0.8;
 			tickInterval = 200;

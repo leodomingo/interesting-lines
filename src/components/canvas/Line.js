@@ -41,7 +41,7 @@ export const getRandomVector = (width) => {
 export const notes = ['F', 'C2', 'C1', 'D', 'G', 'C3', 'E', 'B', 'A'];
 
 const ballOptions = {
-	restitution: 1,
+	restitution: 0.8,
 	friction: 0,
 	frictionAir: 0,
 	frictionStatic: 0,
@@ -74,7 +74,7 @@ export const addLine = (world, index, width, height) => {
 	let randomWidth =
 		width < 500
 			? getIntervalNumber(innerWidth / 4,( innerWidth) / 2)
-			: getIntervalNumber(innerWidth / 4, (innerWidth *3 )/ 4);
+			: getIntervalNumber(innerWidth / 4, (innerWidth  )/ 2);
 	let lineWidth = randomWidth < 450 ? randomWidth : 450;
 
 	const spawnPositionX = getIntervalNumber(width / 5, (width / 5) * 4);

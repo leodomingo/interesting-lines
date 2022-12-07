@@ -10,6 +10,7 @@
 
 	const notes = ['C1', 'D', 'E', 'F', 'G', 'A', 'B', 'C2', 'C3'];
     const volumes = [0,0,0,0,0,0,0,0,0];
+	let keys = []
 
 	let activeKeys = [];
 
@@ -34,7 +35,7 @@
 
 <div class="piano-container">
 	{#each notes as note, i}
-		<Key note={i} key={note} bind:volume={volumes[i]}  active={activeKeys.includes(note)} {canPlay} volumeCap={volumeCap} />
+		<Key note={i} key={note} bind:ctr={keys} bind:volume={volumes[i]}  active={activeKeys.includes(note)} {canPlay} volumeCap={volumeCap} />
 	
         <div class="volume-marker" style="right: {15 * i}px; ">
             <div style="height:{(volumes[i]) * 100}%" >

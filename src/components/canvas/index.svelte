@@ -295,7 +295,10 @@
 	}
 	img {
 		max-width: 650px;
-		/* position: absolute; */
+		position: absolute;
+		top:50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
 		z-index: 5;
 	}
 	@media (max-width: 550px) {
