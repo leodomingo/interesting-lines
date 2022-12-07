@@ -37,7 +37,6 @@
 		<Key note={i} key={note} bind:volume={volumes[i]}  active={activeKeys.includes(note)} {canPlay} volumeCap={volumeCap} />
 	
         <div class="volume-marker" style="right: {15 * i}px; ">
-            {volumes[i]}
             <div style="height:{(volumes[i]) * 100}%" >
             </div>
         </div>
@@ -59,7 +58,7 @@
 		height: 100%;
 		width: 15px;
 		bottom: 0px;
-        background-color: green;
+		z-index: 10;
 
 	}
 	.volume-marker > div {
@@ -71,6 +70,15 @@
         background-color: rgba(0, 0, 0, 1);
         margin-right: 1px;
 		/* background-color: rgba(0, 0, 0, 0.05); */
+	}
+	@media(max-width: 500px){
+		.piano-container {
+		height: 200px;
+        left: 15px;
+        width: calc(100% - 30px);
+		position: fixed;
+		bottom: 0;
+	}
 	}
 
 	.volume-marker > div.dec {

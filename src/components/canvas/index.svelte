@@ -46,7 +46,7 @@
 		});
 
 		eventCollisions = eventCollisions.filter((collision) => {
-			return collision.labels.length != 1; // && !collision.labels.includes('WALL')
+			return collision.labels.length != 1  && !collision.labels.includes('WALL');
 		});
 
 		collisions = [...collisions, ...eventCollisions.flat()];
@@ -232,8 +232,8 @@
 				if (lines.length < lineAmountMax) {
 					let newLine = addLine(world, lines.length, innerWidth, innerHeight);
 					lines = [...lines, newLine];
-					let pushVector = getRandomVector(innerWidth);
-					Body.applyForce(newLine, { x: 0, y: 0 }, pushVector);
+					// let pushVector = getRandomVector(innerWidth);
+					// Body.applyForce(newLine, { x: 0, y: 0 }, pushVector);
 				} else {
 					clearInterval(addLineInterval);
 				}
@@ -290,7 +290,7 @@
 
 	.allow-audio > div {
 		padding: 15px;
-		border: solid 1px black;
+		/* border: solid 1px black; */
 		margin-right: 15px;
 	}
 	img {
