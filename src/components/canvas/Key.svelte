@@ -13,6 +13,7 @@
 	export let volume;
 	let volumeTicker;
 	let isMobile;
+	let tickInterval = 50;
 	let wasPlaying = 0;
 	let waitingForPause = false;
 
@@ -38,30 +39,16 @@
 					audioCtrl.play();
 				}
 				audioCtrl.volume = limits(volume, 0, 1);
-			} else if (!waitingForPause) {
-				audioCtrl.volume = 0.8;
-				console.log(note, " - ", wasPlaying);
+			} else {
+				audioCtrl.volume = 0.7;
 				if (active) {
-					wasPlaying += 100;
 					audioCtrl.play();
 				} else {
-					if (wasPlaying > 800 || wasPlaying == 0) {
-						wasPlaying = 0;
-						audioCtrl.pause();
-					} else {
-						waitingForPause = true;
-						let waitForPause = setInterval(() => {
-							audioCtrl.pause();
-							wasPlaying = 0;
-							clearInterval(waitForPause);
-							waitingForPause = false;
-						}, 500);
-					}
+					audioCtrl.pause();
 				}
 			}
-		}, 100);
+		},200);
 	};
-
 	const resetAudio = () => {
 		if (audioCtrl.currentTime > 7.5) {
 			// console.log("you know what the hell goin on")
@@ -75,7 +62,8 @@
 		audioCtrl.addEventListener('timeupdate', resetAudio);
 		isMobile = checkIsMobile();
 		if (isMobile) {
-			audioCtrl.volume = 0.3;
+			audioCtrl.volume = 0.8;
+			tickInterval = 200;
 		}
 		console.log(isMobile);
 

@@ -100,7 +100,7 @@
 
 		world.gravity.x = 0;
 		world.gravity.y = 0;
-		world.restitution = 1;
+		world.restitution = 0.9;
 		world.fillStyle = 'white';
 
 		Render.run(render);
@@ -294,7 +294,7 @@
 		margin-right: 15px;
 	}
 	img {
-		max-width: 500px;
+		max-width: 650px;
 		/* position: absolute; */
 		z-index: 5;
 	}
