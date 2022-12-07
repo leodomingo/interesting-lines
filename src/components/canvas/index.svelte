@@ -274,10 +274,10 @@
 		left: 0;
 		z-index: 10;
 		display: flex;
-		justify-content: flex-start;
-		align-items: flex-end;
+		justify-content: center;
+		align-items: flex-start;
 		font-family: 'EB Garamond', serif;
-		font-size: 4.25rem;
+		font-size: 1.75rem;
 		line-height: 4rem;
 
 		transition: opacity ease-in-out 0.5s;
