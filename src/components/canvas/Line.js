@@ -74,7 +74,7 @@ export const addLine = (world, index, width, height) => {
 	let randomWidth =
 		width < 500
 			? getIntervalNumber(innerWidth / 4,( innerWidth) / 2)
-			: getIntervalNumber(innerWidth / 4, (innerWidth  )/ 2);
+			: getIntervalNumber(innerWidth / 4, (innerWidth  )/ 3);
 	let lineWidth = randomWidth < 450 ? randomWidth : 450;
 
 	const spawnPositionX = getIntervalNumber(width / 5, (width / 5) * 4);
