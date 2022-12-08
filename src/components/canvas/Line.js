@@ -26,7 +26,7 @@ export const getIntervalNumber = (min, max) => {
 };
 
 export const getRandomVector = (width) => {
-	let intensity = [-0.3, 0, 0.3];
+	let intensity = [-0.1, 0, 0.1];
 	if (width < 500) {
 		intensity = [-0.05, 0, 0.05];
 	}
