@@ -34,7 +34,6 @@
 				}
 				if (volume == 0) {
 					audioCtrl.currentTime = 0;
-					console.log('resetting time');
 					audioCtrl.pause();
 				} else if (audioCtrl.paused) {
 					audioCtrl.play();
@@ -67,7 +66,6 @@
 			audioCtrl.volume = 0.8;
 			tickInterval = 200;
 		}
-		console.log(isMobile);
 
 		return () => {
 			clearInterval(volumeTicker);
